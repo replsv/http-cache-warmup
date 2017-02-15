@@ -1,7 +1,5 @@
 # HTTP cache warmup tool
-
-a. provide a list of urls
-b. run
-```
-node client.js
-```
+Baby steps:
+- install dependencies through *npm install*
+- provide a list of urls
+- run through *node client.js*
