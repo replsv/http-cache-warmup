@@ -11,7 +11,7 @@ var currentRequests = 0;
  * @param  {string} url URL which needs to be accessed
  * @return {void}
  */
-var sendRequest = (url) => {
+ var sendRequest = (url) => {
   currentRequests++;
   var options = {
     uri: url,
@@ -22,13 +22,13 @@ var sendRequest = (url) => {
     method: 'GET'
   };
   request(options, (error, res, body) => {
-        console.log(domain + urlKey);
+    console.log(url);
     if (error) {
-      console.log('ERROR: ' + error.toString());
+      console.error('ERROR: ' + error.toString());
     } else {
-      console.log('HEADERS: ' + 'x-cache: ' + res.headers['x-cache'] + ' / x-cache-hits: ' + res.headers['x-cache-hits']);
+      console.info('HEADERS: ' + 'x-cache: ' + res.headers['x-cache'] + ' / x-cache-hits: ' + res.headers['x-cache-hits']);
     }
-        console.log('--------');
+    console.log('--------');
     currentRequests--;
   });
 };
@@ -38,14 +38,14 @@ var sendRequest = (url) => {
  * @param  {string} url
  * @return {bool}
  */
-var scheduleRequest = (url) => {
+ var scheduleRequest = (url) => {
   if (currentRequests > concurentLimit) {
     return false;
   }
 
   setTimeout(() => {
-            sendRequest(url);
-    }, 1000);
+    sendRequest(url);
+  }, 1000);
 
   return true;
 };
@@ -53,9 +53,9 @@ var scheduleRequest = (url) => {
 /**
  * Read file and schedule requests.
  */
-fs.readFile(file, 'utf-8', (err, content) => {
+ fs.readFile(file, 'utf-8', (err, content) => {
   let urlList = content.split("\n");
-  for (urlIdx in urlList) {
+  for (let urlIdx in urlList) {
     var sent = false;
     while (!sent) {
       sent = scheduleRequest(urlList[urlIdx]);
