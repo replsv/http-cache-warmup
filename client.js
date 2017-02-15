@@ -2,15 +2,10 @@
 
 const request = require('request');
 const fs = require('fs');
-const file = process.env.CSV_LIST_FILE || '/tmp/url-list.csv';
+const file = process.env.CSV || '/tmp/url-list.csv';
 const concurrentLimit = process.env.CONCURRENT_LIMIT || 30;
 var currentRequests = 0;
-
-console.log(file);
-console.log(concurrentLimit);
-
-process.exit(1);
-
+ 
 /**
  * Send HTTP request.
  * @param  {string} url URL which needs to be accessed
