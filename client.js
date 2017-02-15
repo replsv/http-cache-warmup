@@ -2,9 +2,14 @@
 
 const request = require('request');
 const fs = require('fs');
-const file = '/tmp/url-list.csv';
-const concurentLimit = 30;
+const file = process.env.CSV_LIST_FILE || '/tmp/url-list.csv';
+const concurrentLimit = process.env.CONCURRENT_LIMIT || 30;
 var currentRequests = 0;
+
+console.log(file);
+console.log(concurrentLimit);
+
+process.exit(1);
 
 /**
  * Send HTTP request.
@@ -19,7 +24,8 @@ var currentRequests = 0;
       'User-Agent': 'replsv-http-cache-warmup-client'
     },
     timeout: 5000,
-    method: 'GET'
+    method: 'GET',
+    gzip: true
   };
   request(options, (error, res, body) => {
     console.log(url);
@@ -29,6 +35,7 @@ var currentRequests = 0;
       console.info('HEADERS: ' + 'x-cache: ' + res.headers['x-cache'] + ' / x-cache-hits: ' + res.headers['x-cache-hits']);
     }
     console.log('--------');
+  }).on('response', () => {
     currentRequests--;
   });
 };
@@ -39,7 +46,7 @@ var currentRequests = 0;
  * @return {bool}
  */
  var scheduleRequest = (url) => {
-  if (currentRequests > concurentLimit) {
+  if (currentRequests > concurrentLimit) {
     return false;
   }
 
