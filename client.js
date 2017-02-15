@@ -27,7 +27,7 @@ var currentRequests = 0;
     if (error) {
       console.error('ERROR: ' + error.toString());
     } else {
-      console.info('HEADERS: ' + 'x-cache: ' + res.headers['x-cache'] + ' / x-cache-hits: ' + res.headers['x-cache-hits']);
+      console.info('HEADERS: ' + 'x-cache: ' + res.headers['x-cache'] + ' / x-cache-hits: ' + res.headers['x-cache-hits'] + ' / status: ' + res.statusCode);
     }
     console.log('--------');
   }).on('response', () => {
