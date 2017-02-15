@@ -14,7 +14,7 @@ var currentRequests = 0;
 var sendRequest = (url) => {
   currentRequests++;
   var options = {
-    uri: domain + url,
+    uri: url,
     headers: {
       'User-Agent': 'replsv-http-cache-warmup-client'
     },
